@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import 'carousel_indicator.dart';
+
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
   'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -16,30 +18,46 @@ class SecondSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          child: CarouselSlider.builder(
-        options: CarouselOptions(
-          aspectRatio: 2.0,
-          enlargeCenterPage: false,
-          viewportFraction: 1,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+                child: CarouselSlider.builder(
+              options: CarouselOptions(
+                aspectRatio: 2.0,
+                enlargeCenterPage: false,
+                viewportFraction: 1,
+              ),
+              itemCount: (imgList.length / 2).round(),
+              itemBuilder: (context, index, realIdx) {
+                final int first = index * 2;
+                final int second = first + 1;
+                return Row(
+                  children: [first, second].map((idx) {
+                    return Expanded(
+                      flex: 1,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Image.network(imgList[idx], fit: BoxFit.cover),
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            )),
+            SizedBox(
+              height: 50,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => CarouselWithIndicatorDemo()));
+              },
+              child: Text('Press Button'),
+            ),
+          ],
         ),
-        itemCount: (imgList.length / 2).round(),
-        itemBuilder: (context, index, realIdx) {
-          final int first = index * 2;
-          final int second = first + 1;
-          return Row(
-            children: [first, second].map((idx) {
-              return Expanded(
-                flex: 1,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Image.network(imgList[idx], fit: BoxFit.cover),
-                ),
-              );
-            }).toList(),
-          );
-        },
-      )),
+      ),
     );
   }
 }
