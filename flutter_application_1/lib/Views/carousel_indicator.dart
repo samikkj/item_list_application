@@ -26,6 +26,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Carousel with indicator controller demo')),
+      backgroundColor: Colors.blue,
       body: Column(children: [
         Expanded(
           child: CarouselSlider(
@@ -44,6 +45,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 autoPlay: true,
                 enlargeCenterPage: true,
                 aspectRatio: 2.0,
+                viewportFraction: 0.5,
                 onPageChanged: (index, reason) {
                   setState(() {
                     _current = index;
@@ -57,16 +59,17 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
             return GestureDetector(
               onTap: () => _controller.animateToPage(entry.key),
               child: Container(
-                width: 12.0,
-                height: 12.0,
-                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black)
-                        .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-              ),
+                  width: _current == entry.key ? 24 : 12,
+                  height: 12.0,
+                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _current == entry.key ? Colors.red : Colors.green
+                      // color: (Theme.of(context).brightness == Brightness.dark
+                      //         ? Colors.white
+                      //         : Colors.black)
+                      //     .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                      )),
             );
           }).toList(),
         ),
